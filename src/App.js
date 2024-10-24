@@ -24,8 +24,7 @@ import {
   selectUser,
 } from "./redux/features/auth/authSlice";
 import { GoogleOAuthProvider } from "@react-oauth/google";
-import DisplayRoomMembers from "./pages/DisplayRoomMembers/DisplayRoomMembers";
-import Chat from "./pages/Chat/Chat";
+// import DisplayRoomMembers from "./pages/DisplayRoomMembers/DisplayRoomMembers";
 import Word from "./components/Word/WordCollection";
 
 
@@ -104,14 +103,14 @@ function App() {
                 </Layout>
               }
             />
-             <Route
+             {/* <Route
               path="/chat"
               element={
                 <Layout>
                  <Chat/>
                 </Layout>
               }
-            />
+            /> */}
              {/* <Route
               path="/addword"
               element={

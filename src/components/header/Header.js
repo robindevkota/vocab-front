@@ -9,7 +9,7 @@ import { useDispatch } from "react-redux";
 import { logout, RESET } from "../../redux/features/auth/authSlice";
 import { ShowOnLogin, ShowOnLogout } from "../protect/hiddenLink";
 import { UserName } from "../../pages/profile/Profile";
-import AddFriend from "../Addfriend/AddFriend";
+
 
 const activeLink = ({ isActive }) => (isActive ? "active" : "");
 
