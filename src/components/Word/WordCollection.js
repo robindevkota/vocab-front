@@ -137,6 +137,7 @@ const Word = () => {
       const savedWord = await response.json();
       setWordList(prev => [{ ...savedWord, key: savedWord._id }, ...prev]);
       setWord('');
+      setUserId('');
       message.success('Word added successfully'); // Only one success message
     } catch (error) {
       console.error('Error in handleAddWord:', error);
@@ -162,6 +163,8 @@ const Word = () => {
       // Treat the input as a word
       await handleAddWord();
     }
+    setWord(''); // Clear word input after adding
+  setUserId(''); // Clear userId after adding
   };
   
   const fetchFriendWords = async (friendUserId) => {
