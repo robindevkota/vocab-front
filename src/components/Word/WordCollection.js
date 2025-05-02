@@ -58,7 +58,9 @@ const Word = () => {
 
     // If mobile, don't allow page scroll to the input field after editing
     if (!isMobile) {
-      window.scrollTo(0, 0); // Scroll to the top, or adjust this to your desired position
+      setTimeout(() => {
+        window.scrollTo({ top: 0, behavior: 'instant' });
+      }, 100);
     }
 
     setEditingCell(null); // Clear the editing state after blur
