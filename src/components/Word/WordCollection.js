@@ -475,7 +475,7 @@ const Word = () => {
                       block: "center",
                       inline: "nearest"
                     });
-                  }, 30);
+                  }, 120);
                 }
               }}
             />
@@ -521,7 +521,7 @@ const Word = () => {
                       block: "center",
                       inline: "nearest"
                     });
-                  }, 30);
+                  }, 120);
                 }
               }}
             />
