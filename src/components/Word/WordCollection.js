@@ -652,6 +652,9 @@ const Word = () => {
                 fetchWords(e.target.value); // live search
               }}
               onPressEnter={handleAddWordOrUserId}
+              onBlur={() => {
+                if (word.trim()) handleAddWordOrUserId(); // for mobile keyboards
+              }}
             />
           </Col>
           <Col xs={24} md={6}>
