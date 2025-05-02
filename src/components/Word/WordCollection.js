@@ -611,7 +611,7 @@ const Word = () => {
               loading={loading}
               style={{ width: "100%" }}
             >
-              Add Word / Fetch Friend's Collection
+              Add Word / Get Collection
             </Button>
           </Col>
         </Row>
