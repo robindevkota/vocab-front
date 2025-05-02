@@ -482,7 +482,7 @@ const Word = () => {
               onBlur={(e) =>
                 handleCellEdit(record, "meanings", e.target.value)
               }
-              autoFocus={!isMobile}
+              // autoFocus={!isMobile}
             />
           ) : (
             <div
