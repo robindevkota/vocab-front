@@ -23,7 +23,6 @@ import {
 } from "@ant-design/icons";
 
 const { Title } = Typography;
-
 const Word = () => {
   const [userId, setUserId] = useState("");
   const [word, setWord] = useState("");
@@ -53,11 +52,34 @@ const Word = () => {
     }
   };
 
-  const fetchWords = async () => {
+  // const fetchWords = async () => {
+  //   try {
+  //     const response = await fetch(`${URL}/api/words`, {
+  //       method: "GET",
+  //       credentials: "include", // This ensures that cookies are sent along with the request
+  //     });
+
+  //     if (response.status === 401) {
+  //       message.error("Unauthorized. Please log in.");
+  //       return;
+  //     }
+
+  //     const data = await response.json();
+  //     setWordList(data.map((word) => ({ ...word, key: word._id })));
+  //     setUserId(data[0]?.userId || "");
+  //   } catch (error) {
+  //     message.error("Error fetching words");
+  //   }
+  // };
+
+  const fetchWords = async (searchTerm = "") => {
     try {
-      const response = await fetch(`${URL}/api/words`, {
+      const queryParam = searchTerm
+        ? `?search=${encodeURIComponent(searchTerm)}`
+        : "";
+      const response = await fetch(`${URL}/api/words${queryParam}`, {
         method: "GET",
-        credentials: "include", // This ensures that cookies are sent along with the request
+        credentials: "include", // Ensure cookies (e.g., session) are sent
       });
 
       if (response.status === 401) {
@@ -66,6 +88,8 @@ const Word = () => {
       }
 
       const data = await response.json();
+      console.log("API Response Data:", data); // Log the response
+
       setWordList(data.map((word) => ({ ...word, key: word._id })));
       setUserId(data[0]?.userId || "");
     } catch (error) {
@@ -373,13 +397,14 @@ const Word = () => {
         title: "SN",
         key: "sn",
         align: "center", // Center the content
-        width: 10,  
+        width: 10,
         render: (_, __, index) => <span>{index + 1}</span>, // Adding Serial Number
       },
       {
         title: "Word",
         dataIndex: "word",
         key: "word",
+        width:150,
         render: (text, record) => (
           <div
             onDoubleClick={() => {
@@ -400,6 +425,7 @@ const Word = () => {
         title: "Pronunciation",
         dataIndex: "pronunciation",
         key: "pronunciation",
+        width:150,
         render: (text, record) => (
           <Space>
             <span>{text}</span>
@@ -422,6 +448,7 @@ const Word = () => {
         title: "Meaning",
         dataIndex: "meanings",
         key: "meanings",
+        width:250,
         render: (text, record) =>
           editingCell?.record._id === record._id &&
           editingCell?.field === "meanings" ? (
@@ -451,7 +478,7 @@ const Word = () => {
         title: "Example",
         dataIndex: "examples",
         key: "examples",
-        width: 300,
+        width:250,
         render: (text, record) =>
           editingCell?.record._id === record._id &&
           editingCell?.field === "examples" ? (
@@ -462,10 +489,14 @@ const Word = () => {
               }
               onBlur={() => setEditingCell(null)}
               autoFocus
+              style={{ width: "100%" }}
             />
           ) : (
             <div
-              style={{ cursor: "pointer", padding: "4px" }}
+              style={{
+                cursor: "pointer",
+                padding: "4px",
+              }}
               onDoubleClick={() =>
                 setEditingCell({ record, field: "examples" })
               }
@@ -479,6 +510,8 @@ const Word = () => {
     baseColumns.push({
       title: "Actions",
       key: "actions",
+      width:100,
+      align: "center",
       render: (_, record) => (
         <Space>
           <EditOutlined
@@ -581,7 +614,7 @@ const Word = () => {
             </Title>
           </Col>
         </Row>
-  
+
         {/* Second Row: Share Your Collection */}
         <Row justify="end" gutter={[16, 8]}>
           <Col>
@@ -593,14 +626,20 @@ const Word = () => {
             </span>
           </Col>
         </Row>
-  
+
         {/* Input and Button */}
         <Row gutter={[8, 8]} style={{ marginTop: "16px" }}>
           <Col xs={24} md={18}>
             <Input
-              placeholder="Enter a word or friend's User ID"
+              style={{ height: 30 }}
+              allowClear
+              placeholder="Enter a word or friend's User ID /Search"
               value={word}
-              onChange={(e) => setWord(e.target.value)}
+              // onChange={(e) => setWord(e.target.value)}
+              onChange={(e) => {
+                setWord(e.target.value);
+                fetchWords(e.target.value); // live search
+              }}
               onPressEnter={handleAddWordOrUserId}
             />
           </Col>
@@ -616,19 +655,18 @@ const Word = () => {
           </Col>
         </Row>
       </Card>
-  
+
       <Table
         columns={getTableColumns()}
         dataSource={wordList}
         pagination={{ pageSize: 30 }}
         rowClassName="custom-row"
-        scroll={{ x: 'max-content' }}
+        scroll={{ x: "max-content" }}
       />
-  
+
       {editModalVisible && <EditWordModal />}
     </div>
   );
-  
 };
 
 export default Word;
