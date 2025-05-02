@@ -1,42 +1,24 @@
-.header {
-  background-color: #030b6b;
-  height: 7rem;
-
+.app-header {
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
-  // max-width: 1000px;
-  width: 100%;
-  margin: 0 auto;
   padding: 0 20px;
 
-  & nav {
-    width: 100%;
-    max-width: 1000px;
-    color: #fff;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+  .desktop-menu {
+    display: none;
+  }
 
-    & > .logo {
-      color: #fff;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      font-size: 3rem;
-      cursor: pointer;
+  .menu-button {
+    display: block;
+  }
+
+  @media (min-width: 768px) {
+    .desktop-menu {
+      display: block;
     }
-  }
-}
-.home-links {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  & li a {
-    color: #fff;
-  }
-  & > * {
-    margin-left: 1rem;
-    color: #fff;
+
+    .menu-button {
+      display: none;
+    }
   }
 }
