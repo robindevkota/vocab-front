@@ -468,9 +468,14 @@ const Word = () => {
               }
               autoFocus
               ref={(input) => {
-                if (input) {
-                  // Prevent automatic scroll behavior
-                  input.scrollIntoView({ behavior: "smooth", block: "center", inline: "nearest", scrollIntoView: false });
+                if (input && input.input) {
+                  setTimeout(() => {
+                    input.input.scrollIntoView({
+                      behavior: "smooth",
+                      block: "center",
+                      inline: "nearest"
+                    });
+                  }, 100);
                 }
               }}
             />
