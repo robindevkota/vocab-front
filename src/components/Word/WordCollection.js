@@ -38,9 +38,21 @@ const Word = () => {
   useEffect(() => {
     fetchWords();
   }, []);
- 
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768); // Check if window width is less than 768px
+    };
 
-  const handleBlur = (e, field) => {
+    // Set initial value
+    handleResize();
+
+    // Add event listener for window resizing
+    window.addEventListener("resize", handleResize);
+
+    // Clean up event listener
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+  const handleBlur = (e, field, record) => {
     // When user clicks away or presses Enter, we save the edited data
     handleCellEdit(record, field, e.target.value);
 
@@ -51,6 +63,7 @@ const Word = () => {
 
     setEditingCell(null); // Clear the editing state after blur
   };
+
   const getShortForm = (partOfSpeech) => {
     switch (partOfSpeech) {
       case "noun":
@@ -478,7 +491,7 @@ const Word = () => {
                 handleCellEdit(record, "meanings", e.target.value)
               }
               // onBlur={() => setEditingCell(null)}
-              onBlur={(e) => handleBlur(e, 'examples')} 
+              onBlur={(e) => handleBlur(e, "examples", record)}
               autoFocus
             />
           ) : (
@@ -510,7 +523,7 @@ const Word = () => {
                 handleCellEdit(record, "examples", e.target.value)
               }
               // onBlur={() => setEditingCell(null)}
-              onBlur={(e) => handleBlur(e, 'examples')}
+              onBlur={(e) => handleBlur(e, "examples", record)}
               autoFocus
               style={{ width: "100%" }}
             />
