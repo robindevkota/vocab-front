@@ -217,7 +217,7 @@ const Word = () => {
     } else {
       // Treat the input as a word
       await handleAddWord();
-      fetchWords(""); 
+      fetchWords("");
     }
     setWord(""); // Clear word input after adding
     setUserId(""); // Clear userId after adding
@@ -405,10 +405,10 @@ const Word = () => {
         title: "Word",
         dataIndex: "word",
         key: "word",
-        width:150,
+        width: 150,
         render: (text, record) => (
           <div
-            // onDoubleClick={() => {
+            // onClick={() => {
             //   setEditingWord(record);
             //   setEditModalVisible(true);
             // }}
@@ -430,7 +430,7 @@ const Word = () => {
         title: "Pronunciation",
         dataIndex: "pronunciation",
         key: "pronunciation",
-        width:150,
+        width: 150,
         render: (text, record) => (
           <Space>
             <span>{text}</span>
@@ -453,7 +453,7 @@ const Word = () => {
         title: "Meaning",
         dataIndex: "meanings",
         key: "meanings",
-        width:250,
+        width: 250,
         render: (text, record) =>
           editingCell?.record._id === record._id &&
           editingCell?.field === "meanings" ? (
@@ -462,20 +462,21 @@ const Word = () => {
               onPressEnter={(e) =>
                 handleCellEdit(record, "meanings", e.target.value)
               }
-              onBlur={() => setEditingCell(null)}
+              // onBlur={() => setEditingCell(null)}
+              onBlur={(e) =>
+                handleCellEdit(record, "meanings", e.target.value)
+              }
               autoFocus
             />
           ) : (
             <div
               style={{ cursor: "pointer", padding: "4px" }}
-              // onDoubleClick={() =>
+              // onClick={() =>
               //   setEditingCell({ record, field: "meanings" })
               // }
-              onClick={() =>
-                setEditingCell({ record, field: "meanings" })
-              }
+              onClick={() => setEditingCell({ record, field: "meanings" })}
             >
-              {text || "Double click to add meaning"}
+              {text || " click to add meaning"}
             </div>
           ),
       });
@@ -486,7 +487,7 @@ const Word = () => {
         title: "Example",
         dataIndex: "examples",
         key: "examples",
-        width:250,
+        width: 250,
         render: (text, record) =>
           editingCell?.record._id === record._id &&
           editingCell?.field === "examples" ? (
@@ -495,7 +496,10 @@ const Word = () => {
               onPressEnter={(e) =>
                 handleCellEdit(record, "examples", e.target.value)
               }
-              onBlur={() => setEditingCell(null)}
+              // onBlur={() => setEditingCell(null)}
+              onBlur={(e) =>
+                handleCellEdit(record, "examples", e.target.value)
+              }
               autoFocus
               style={{ width: "100%" }}
             />
@@ -505,14 +509,12 @@ const Word = () => {
                 cursor: "pointer",
                 padding: "4px",
               }}
-              // onDoubleClick={() =>
+              // onClick={() =>
               //   setEditingCell({ record, field: "examples" })
               // }
-               onClick={() =>
-                setEditingCell({ record, field: "examples" })
-              }
+              onClick={() => setEditingCell({ record, field: "examples" })}
             >
-              {text || "Double click to add example"}
+              {text || "click to add example"}
             </div>
           ),
       });
@@ -521,7 +523,7 @@ const Word = () => {
     baseColumns.push({
       title: "Actions",
       key: "actions",
-      width:100,
+      width: 100,
       align: "center",
       render: (_, record) => (
         <Space>
@@ -644,7 +646,7 @@ const Word = () => {
             <Input
               style={{ height: 30 }}
               allowClear
-              placeholder="Enter a word or friend's User ID /Search"
+              placeholder="Enter a word or friend's User ID/Search"
               value={word}
               // onChange={(e) => setWord(e.target.value)}
               onChange={(e) => {
@@ -652,9 +654,9 @@ const Word = () => {
                 fetchWords(e.target.value); // live search
               }}
               onPressEnter={handleAddWordOrUserId}
-              onBlur={() => {
-                if (word.trim()) handleAddWordOrUserId(); // for mobile keyboards
-              }}
+              //         onBlur={() => {
+              //   if (word.trim()) handleAddWordOrUserId(); // for mobile keyboards
+              // }}
             />
           </Col>
           <Col xs={24} md={6}>
