@@ -38,20 +38,19 @@ const Word = () => {
   useEffect(() => {
     fetchWords();
   }, []);
-  useEffect(() => {
-    const handleResize = () => {
-      setIsMobile(window.innerWidth < 768); // Check if window width is less than 768px
-    };
+ 
 
-    // Set initial value
-    handleResize();
+  const handleBlur = (e, field) => {
+    // When user clicks away or presses Enter, we save the edited data
+    handleCellEdit(record, field, e.target.value);
 
-    // Add event listener for window resizing
-    window.addEventListener('resize', handleResize);
+    // If mobile, don't allow page scroll to the input field after editing
+    if (!isMobile) {
+      window.scrollTo(0, 0); // Scroll to the top, or adjust this to your desired position
+    }
 
-    // Clean up event listener
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
+    setEditingCell(null); // Clear the editing state after blur
+  };
   const getShortForm = (partOfSpeech) => {
     switch (partOfSpeech) {
       case "noun":
@@ -479,10 +478,8 @@ const Word = () => {
                 handleCellEdit(record, "meanings", e.target.value)
               }
               // onBlur={() => setEditingCell(null)}
-              onBlur={(e) =>
-                handleCellEdit(record, "meanings", e.target.value)
-              }
-              // autoFocus={!isMobile}
+              onBlur={(e) => handleBlur(e, 'examples')} 
+              autoFocus
             />
           ) : (
             <div
@@ -513,10 +510,8 @@ const Word = () => {
                 handleCellEdit(record, "examples", e.target.value)
               }
               // onBlur={() => setEditingCell(null)}
-              onBlur={(e) =>
-                handleCellEdit(record, "examples", e.target.value)
-              }
-              autoFocus={!isMobile}
+              onBlur={(e) => handleBlur(e, 'examples')}
+              autoFocus
               style={{ width: "100%" }}
             />
           ) : (
