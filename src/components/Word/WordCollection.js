@@ -217,6 +217,7 @@ const Word = () => {
     } else {
       // Treat the input as a word
       await handleAddWord();
+      fetchWords(""); 
     }
     setWord(""); // Clear word input after adding
     setUserId(""); // Clear userId after adding
@@ -407,7 +408,11 @@ const Word = () => {
         width:150,
         render: (text, record) => (
           <div
-            onDoubleClick={() => {
+            // onDoubleClick={() => {
+            //   setEditingWord(record);
+            //   setEditModalVisible(true);
+            // }}
+            onClick={() => {
               setEditingWord(record);
               setEditModalVisible(true);
             }}
@@ -463,7 +468,10 @@ const Word = () => {
           ) : (
             <div
               style={{ cursor: "pointer", padding: "4px" }}
-              onDoubleClick={() =>
+              // onDoubleClick={() =>
+              //   setEditingCell({ record, field: "meanings" })
+              // }
+              onClick={() =>
                 setEditingCell({ record, field: "meanings" })
               }
             >
@@ -497,7 +505,10 @@ const Word = () => {
                 cursor: "pointer",
                 padding: "4px",
               }}
-              onDoubleClick={() =>
+              // onDoubleClick={() =>
+              //   setEditingCell({ record, field: "examples" })
+              // }
+               onClick={() =>
                 setEditingCell({ record, field: "examples" })
               }
             >
