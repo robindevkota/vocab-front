@@ -26,6 +26,8 @@ const { Title } = Typography;
 const Word = () => {
   const [userId, setUserId] = useState("");
   const [word, setWord] = useState("");
+  const [isMobile, setIsMobile] = useState(false);
+
   const [wordList, setWordList] = useState([]);
   const [loading, setLoading] = useState(false);
   const [extraColumns, setExtraColumns] = useState(["meanings", "examples"]); // Show these by default
@@ -35,6 +37,20 @@ const Word = () => {
   const URL = process.env.REACT_APP_BACKEND_URL;
   useEffect(() => {
     fetchWords();
+  }, []);
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768); // Check if window width is less than 768px
+    };
+
+    // Set initial value
+    handleResize();
+
+    // Add event listener for window resizing
+    window.addEventListener('resize', handleResize);
+
+    // Clean up event listener
+    return () => window.removeEventListener('resize', handleResize);
   }, []);
   const getShortForm = (partOfSpeech) => {
     switch (partOfSpeech) {
