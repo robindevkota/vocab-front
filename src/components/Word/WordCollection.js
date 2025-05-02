@@ -466,7 +466,7 @@ const Word = () => {
               onBlur={(e) =>
                 handleCellEdit(record, "meanings", e.target.value)
               }
-              autoFocus
+              autoFocus={!isMobile}
             />
           ) : (
             <div
@@ -500,7 +500,7 @@ const Word = () => {
               onBlur={(e) =>
                 handleCellEdit(record, "examples", e.target.value)
               }
-              autoFocus
+              autoFocus={!isMobile}
               style={{ width: "100%" }}
             />
           ) : (
