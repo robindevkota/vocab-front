@@ -26,8 +26,6 @@ const { Title } = Typography;
 const Word = () => {
   const [userId, setUserId] = useState("");
   const [word, setWord] = useState("");
-  const [isMobile, setIsMobile] = useState(false);
-
   const [wordList, setWordList] = useState([]);
   const [loading, setLoading] = useState(false);
   const [extraColumns, setExtraColumns] = useState(["meanings", "examples"]); // Show these by default
@@ -38,34 +36,6 @@ const Word = () => {
   useEffect(() => {
     fetchWords();
   }, []);
-  useEffect(() => {
-    const handleResize = () => {
-      setIsMobile(window.innerWidth < 768); // Check if window width is less than 768px
-    };
-
-    // Set initial value
-    handleResize();
-
-    // Add event listener for window resizing
-    window.addEventListener("resize", handleResize);
-
-    // Clean up event listener
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
-  const handleBlur = (e, field, record) => {
-    // When user clicks away or presses Enter, we save the edited data
-    handleCellEdit(record, field, e.target.value);
-
-    // If mobile, don't allow page scroll to the input field after editing
-    if (!isMobile) {
-      setTimeout(() => {
-        window.scrollTo({ top: 0, behavior: 'instant' });
-      }, 100);
-    }
-
-    setEditingCell(null); // Clear the editing state after blur
-  };
-
   const getShortForm = (partOfSpeech) => {
     switch (partOfSpeech) {
       case "noun":
@@ -493,8 +463,16 @@ const Word = () => {
                 handleCellEdit(record, "meanings", e.target.value)
               }
               // onBlur={() => setEditingCell(null)}
-              onBlur={(e) => handleBlur(e, "examples", record)}
+              onBlur={(e) =>
+                handleCellEdit(record, "meanings", e.target.value)
+              }
               autoFocus
+              ref={(input) => {
+                if (input) {
+                  // Prevent automatic scroll behavior
+                  input.scrollIntoView({ behavior: "smooth", block: "center", inline: "nearest", scrollIntoView: false });
+                }
+              }}
             />
           ) : (
             <div
@@ -525,7 +503,9 @@ const Word = () => {
                 handleCellEdit(record, "examples", e.target.value)
               }
               // onBlur={() => setEditingCell(null)}
-              onBlur={(e) => handleBlur(e, "examples", record)}
+              onBlur={(e) =>
+                handleCellEdit(record, "examples", e.target.value)
+              }
               autoFocus
               style={{ width: "100%" }}
             />
