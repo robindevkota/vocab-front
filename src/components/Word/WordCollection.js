@@ -475,7 +475,7 @@ const Word = () => {
                       block: "center",
                       inline: "nearest"
                     });
-                  }, 100);
+                  }, 30);
                 }
               }}
             />
@@ -513,6 +513,17 @@ const Word = () => {
               }
               autoFocus
               style={{ width: "100%" }}
+              ref={(input) => {
+                if (input && input.input) {
+                  setTimeout(() => {
+                    input.input.scrollIntoView({
+                      behavior: "smooth",
+                      block: "center",
+                      inline: "nearest"
+                    });
+                  }, 30);
+                }
+              }}
             />
           ) : (
             <div
